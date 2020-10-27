@@ -1,94 +1,117 @@
 package LinkedList;
 
 public class LinkedList {
-    private Node first;
-    private  Node last;
-
+    private Node head;
+    private  Node tail;
+    private boolean reversed = false;
     public <T extends  Comparable> void addFirst(T item){
         var node = new Node(item);
         // if the head/first is pointing at a node, the new node to point to the head
-        if (first != null) {
-            node.setNode(first);
-
+        if (head != null) {
+            node.setNextNode(head);
+            head.setPrevious(node);
         }
         // if the last is pointing at null, move it to point to the new node
-        if(last == null){
-            last = node;
+        if(tail == null){
+            tail = node;
         }
+
         // update the head to point to the new node
-        first = node;
+        head = node;
     }
     public <T extends  Comparable> void addLast(T item){
         var node = new Node(item);
         // if this is the first node to be added, point the head/first to the node
-        if(first == null){
-            first = node;
+        if(head == null){
+            head = node;
         }
         // if the tail is pointing at a node, update the reference to point to the new node
-        if(last != null){
-            last.setNode(node);
+        if(tail != null){
+            tail.setNextNode(node);
+            node.setPrevious(tail);
         }
         // move the tail/last to point to the new node
-       last = node;
+       tail = node;
+    }
+    public  void revereOnSingleLinkedList(){
+        var previous = head;
+        var current = head.getNextNode();
+        while(current != null){
+            var next = current.getNextNode();
+
+            current.setNextNode(previous);
+            previous = current;
+            current = next;
+        }
+        tail = head;
+        tail.setNextNode(null);
+        head = previous;
+    }
+    public void reverseOnDoubleLinkedList(){
+        var temp = tail;
+        tail = head;
+        head = temp;
+        reversed = true;
     }
     public void printItems(){
-        if(first == null){
+        if(head == null){
             System.out.println("Empty list");
         }
-        while(first != null){
-            System.out.print(first.getValue() +", ");
-            first = first.getNode();
+        while(head!= null){
+            System.out.print(head.getValue() +", ");
+            head = reversed ? head.getPrevious() : head.getNextNode();
+
         }
 
     }
     public  void deleteFirst(){
-        if(first != null){
-            if(first.getNode() != null){
-                var temp = first.getNode();
-                first.setNode(null);
-                first = temp;
+        if(head != null){
+            if(head.getNextNode() != null){
+                var temp = head.getNextNode();
+                head.setNextNode(null);
+                head = temp;
             }else {
-                first = null;
+                head = null;
             }
 
         }
     }
     public <T extends  Comparable> boolean contains(T item){
-       var temp = first;
+       var temp = head;
         while (temp != null){
             if(temp.getValue().compareTo(item) == 0){
                 return true;
             }
-            temp = temp.getNode();
+            temp = temp.getNextNode();
         }
         return false;
     }
     public <T extends  Comparable> int indexOf(T item){
         int index = -1;
-        var temp = first;
+        var temp = head;
         while (temp != null){
             if(temp.getValue().compareTo(item) == 0){
                 return index == -1 ? 0 : ++index;
             }
-            temp = temp.getNode();
+            temp = temp.getNextNode();
             ++index;
         }
         return index;
     }
     public  void deleteLast(){
-        if(first != null){
-            var temp = first;
+        if(head != null){
+            var temp = head;
             Node tempLast = null;
             while (temp != null){
-                if(temp.getNode() != null && temp.getNode().getNode() == null){
+                if(temp.getNextNode() != null && temp.getNextNode().getNextNode() == null){
                     tempLast = temp;
                     break;
                 }
-                temp = temp.getNode();
+                temp = temp.getNextNode();
             }
             if(tempLast != null){
-                tempLast.setNode(null);
-                last = tempLast;
+                tempLast.setNextNode(null);
+                tail = tempLast;
             }
 
         }

@@ -2,21 +2,30 @@ package LinkedList;
 
 public class Node<T extends  Comparable> {
     private T value;
-    private Node node;
+    private Node next;
+    private  Node previous;
 
     public Node(T value) {
         this.value = value;
     }
 
-    public Node getNode() {
-        return node;
+    public Node getNextNode() {
+        return next;
     }
 
-    public void setNode(Node node) {
-        this.node = node;
+    public void setNextNode(Node node) {
+        this.next = node;
     }
 
     public T getValue() {
         return value;
+    }
+
+    public Node getPrevious() {
+        return previous;
+    }
+
+    public void setPrevious(Node previous) {
+        this.previous = previous;
     }
 }
