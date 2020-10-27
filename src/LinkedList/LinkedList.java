@@ -13,6 +13,7 @@ public class LinkedList {
         }
         // if the last is pointing at null, move it to point to the new node
         if(tail == null){
+
             tail = node;
         }
 
